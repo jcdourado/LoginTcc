@@ -25,9 +25,13 @@ if(isset($_POST)){
 	    $stmt->bindParam(1,$_POST['usuario']);
 	    $stmt->bindParam(2,$_POST['senha']);
 	    $stmt->bindParam(3,$_GET['id']);
-	    $stmt->execute();
-			$_SESSION['usuario'] = getUsuario($con);
-	    header("Location: usuarios.php"); $con = null; exit;
+			if(!$stmt->execute()){
+				$erros[5] = "O usuário já existe!";
+			}
+			else{
+				$_SESSION['usuario'] = getUsuario($con);
+	    	header("Location: usuarios.php"); $con = null; exit;
+			}
 	  }
 	  else if (isset($_POST['usuario']) && isset($_POST['senha']) && $_POST['curso'] != ""){
 	    $sql = "UPDATE USERS SET usuario = ?,senha = ?, id_curso = ? WHERE ID_USER = ?";
@@ -36,9 +40,13 @@ if(isset($_POST)){
 	    $stmt->bindParam(2,$_POST['senha']);
 	    $stmt->bindParam(3,$_POST['curso']);
 	    $stmt->bindParam(4,$_GET['id']);
-	    $stmt->execute();
-			$_SESSION['usuario'] = getUsuario($con);
-	    header("Location: usuarios.php"); $con = null; exit;
+			if(!$stmt->execute()){
+				$erros[5] = "O usuário já existe!";
+			}
+			else{
+				$_SESSION['usuario'] = getUsuario($con);
+	    	header("Location: usuarios.php"); $con = null; exit;
+			}
 	  }
 	}
 }
@@ -87,6 +95,7 @@ function verErros(){
         <input type="text" name="usuario" maxlength="25" value="<?php echo $usuario['USUARIO']; ?>"/>
 				<?php if(isset($erros[1])){echo "<p>".$erros[1]."</p>";}?>
 				<?php if(isset($erros[3])){echo "<p>".$erros[3]."</p>";}?>
+				<?php if(isset($erros[5])){echo "<p>".$erros[5]."</p>";}?>
         <label>Senha</label>
         <input type="password" name="senha" maxlength="25"  value="<?php echo $usuario['SENHA']; ?>"/>
 				<?php if(isset($erros[2])){echo "<p>".$erros[2]."</p>";}?>

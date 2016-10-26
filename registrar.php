@@ -16,7 +16,7 @@ if(isset($_POST)){
 	    $stmt = $con->prepare($sql);
 	    $stmt->bindParam(1,$_POST['usuario']);
 	    $stmt->bindParam(2,$_POST['senha']);
-	    $stmt->execute();
+	    if(!$stmt->execute()){$erros[5] = "O usuário já existe!";}
 	  }
 	  else if (isset($_POST['usuario']) && isset($_POST['senha']) && $_POST['curso'] != ""){
 	    $sql = "INSERT INTO USERS(usuario,senha,id_curso) VALUES (?,?,?)";
@@ -24,17 +24,17 @@ if(isset($_POST)){
 	    $stmt->bindParam(1,$_POST['usuario']);
 	    $stmt->bindParam(2,$_POST['senha']);
 	    $stmt->bindParam(3,$_POST['curso']);
-	    $stmt->execute();
+	    if(!$stmt->execute()){$erros[5] = "O usuário já existe!";}
 	  }
 	}
 }
 
 function verErros(){
 	$erros = array();
-	if(strlen($_POST['usuario']) == 0){
+	if(isset($_POST['usuario']) && strlen($_POST['usuario']) == 0){
 		$erros[1] = "Digite um nome de usuário";
 	}
-	if(strlen($_POST['senha']) == 0){
+	if(isset($_POST['senha']) && strlen($_POST['senha']) == 0){
 		$erros[2] = "Digite uma senha";
 	}
 	if(isset($_POST['usuario']) && strlen($_POST['usuario']) > 1 && strlen($_POST['usuario']) < 5){
@@ -61,6 +61,7 @@ function verErros(){
         <input type="text" name="usuario" maxlength="25" <?php if(isset($_POST['usuario']) && strlen($_POST['usuario']) > 1){ echo "value='".$_POST['usuario']."'";}  ?>/>
 				<?php if(isset($erros[1])){echo "<p>".$erros[1]."</p>";}?>
 				<?php if(isset($erros[3])){echo "<p>".$erros[3]."</p>";}?>
+				<?php if(isset($erros[5])){echo "<p>".$erros[5]."</p>";}?>
         <label>Senha</label>
         <input type="password" name="senha" maxlength="25" <?php if(isset($_POST['senha']) && strlen($_POST['senha']) > 1){ echo "value='".$_POST['senha']."'";}  ?>/>
 				<?php if(isset($erros[2])){echo "<p>".$erros[2]."</p>";}?>
