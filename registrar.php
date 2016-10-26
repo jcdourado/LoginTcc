@@ -48,6 +48,7 @@ if(isset($_POST)){
           <?php foreach($con->query('SELECT ID_CURSO, NOME_CURSO FROM CURSO') as $row){
             echo "<option value='".$row['ID_CURSO']."'>".$row['NOME_CURSO']."</option>";
           }
+					$con = null;
           ?>
         </select>
         <input type="submit" value="Entrar" />
