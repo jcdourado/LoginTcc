@@ -5,7 +5,7 @@ function login(){
   session_start();
 
     if (empty($_POST) OR (empty($_POST['usuario']) OR empty($_POST['senha']))) {
-      header("Location: login.php");
+      header("Location: login.php?err=emp");
       session_destroy();
       exit;
     } else {
@@ -18,7 +18,7 @@ function login(){
 
       if(!$userDB){
         session_destroy();
-        header("Location: login.php"); $con = null; exit;
+        header("Location: login.php?err=emp"); $con = null; exit;
       }
 
       $_SESSION['usuario'] = $userDB;

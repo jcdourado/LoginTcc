@@ -20,7 +20,7 @@ session_start();
 
   if(!$userDB){
     session_destroy();
-    header("Location: login.php"); $con = null; exit;
+    header("Location: login.php?err=emp"); $con = null; exit;
   }
 
   header("Location: usuarios.php");

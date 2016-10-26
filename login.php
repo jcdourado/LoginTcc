@@ -21,8 +21,15 @@ function usuarioEstaLogado(){
         <legend>Dados de Login</legend>
         <label>Usuário</label>
         <input type="text" name="usuario" maxlength="25" />
+        <?php if(isset($_GET['err'])){
+          echo "<p>Digite seu usuário</p>";
+        }?>
         <label>Senha</label>
+
         <input type="password" name="senha" maxlength="25"/>
+        <?php if(isset($_GET['err'])){
+          echo "<p>Digite sua senha</p>";
+        }?>
         <input type="submit" value="Entrar" />
       </fieldset>
     </form>
