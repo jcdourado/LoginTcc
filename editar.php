@@ -17,6 +17,7 @@ else {
 }
 
 if(isset($_POST)){
+
   if(isset($_POST['usuario']) && isset($_POST['senha']) && ($_POST['curso'] == "")){
     $sql = "UPDATE USERS SET usuario = ?,senha = ?, id_curso = NULL WHERE ID_USER = ?";
     $stmt = $con->prepare($sql);
@@ -24,6 +25,7 @@ if(isset($_POST)){
     $stmt->bindParam(2,$_POST['senha']);
     $stmt->bindParam(3,$_GET['id']);
     $stmt->execute();
+		$_SESSION['usuario'] = getUsuario($con);
     header("Location: usuarios.php"); $con = null; exit;
   }
   else if (isset($_POST['usuario']) && isset($_POST['senha']) && $_POST['curso'] != ""){
@@ -34,8 +36,20 @@ if(isset($_POST)){
     $stmt->bindParam(3,$_POST['curso']);
     $stmt->bindParam(4,$_GET['id']);
     $stmt->execute();
+		$_SESSION['usuario'] = getUsuario($con);
     header("Location: usuarios.php"); $con = null; exit;
   }
+}
+function getUsuario($con){
+		$sql = "SELECT * FROM USERS WHERE ID_USER = ?";
+
+		$stmt = $con->prepare($sql);
+		$stmt->bindParam(1,$_SESSION['usuario']['ID_USER']);
+
+		if($stmt->execute()){
+			return $stmt->fetch();
+		}
+
 }
 
 ?>
