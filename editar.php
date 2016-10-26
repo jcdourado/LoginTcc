@@ -17,29 +17,32 @@ else {
 }
 
 if(isset($_POST)){
-
-  if(isset($_POST['usuario']) && isset($_POST['senha']) && ($_POST['curso'] == "")){
-    $sql = "UPDATE USERS SET usuario = ?,senha = ?, id_curso = NULL WHERE ID_USER = ?";
-    $stmt = $con->prepare($sql);
-    $stmt->bindParam(1,$_POST['usuario']);
-    $stmt->bindParam(2,$_POST['senha']);
-    $stmt->bindParam(3,$_GET['id']);
-    $stmt->execute();
-		$_SESSION['usuario'] = getUsuario($con);
-    header("Location: usuarios.php"); $con = null; exit;
-  }
-  else if (isset($_POST['usuario']) && isset($_POST['senha']) && $_POST['curso'] != ""){
-    $sql = "UPDATE USERS SET usuario = ?,senha = ?, id_curso = ? WHERE ID_USER = ?";
-    $stmt = $con->prepare($sql);
-    $stmt->bindParam(1,$_POST['usuario']);
-    $stmt->bindParam(2,$_POST['senha']);
-    $stmt->bindParam(3,$_POST['curso']);
-    $stmt->bindParam(4,$_GET['id']);
-    $stmt->execute();
-		$_SESSION['usuario'] = getUsuario($con);
-    header("Location: usuarios.php"); $con = null; exit;
-  }
+	$erros = verErros();
+	if(!$erros){
+	  if(isset($_POST['usuario']) && isset($_POST['senha']) && ($_POST['curso'] == "")){
+	    $sql = "UPDATE USERS SET usuario = ?,senha = ?, id_curso = NULL WHERE ID_USER = ?";
+	    $stmt = $con->prepare($sql);
+	    $stmt->bindParam(1,$_POST['usuario']);
+	    $stmt->bindParam(2,$_POST['senha']);
+	    $stmt->bindParam(3,$_GET['id']);
+	    $stmt->execute();
+			$_SESSION['usuario'] = getUsuario($con);
+	    header("Location: usuarios.php"); $con = null; exit;
+	  }
+	  else if (isset($_POST['usuario']) && isset($_POST['senha']) && $_POST['curso'] != ""){
+	    $sql = "UPDATE USERS SET usuario = ?,senha = ?, id_curso = ? WHERE ID_USER = ?";
+	    $stmt = $con->prepare($sql);
+	    $stmt->bindParam(1,$_POST['usuario']);
+	    $stmt->bindParam(2,$_POST['senha']);
+	    $stmt->bindParam(3,$_POST['curso']);
+	    $stmt->bindParam(4,$_GET['id']);
+	    $stmt->execute();
+			$_SESSION['usuario'] = getUsuario($con);
+	    header("Location: usuarios.php"); $con = null; exit;
+	  }
+	}
 }
+
 function getUsuario($con){
 		$sql = "SELECT * FROM USERS WHERE ID_USER = ?";
 
@@ -49,8 +52,25 @@ function getUsuario($con){
 		if($stmt->execute()){
 			return $stmt->fetch();
 		}
-
 }
+
+function verErros(){
+	$erros = array();
+	if(isset($_POST['usuario']) && strlen($_POST['usuario']) == 0){
+		$erros[1] = "Digite um nome de usuário";
+	}
+	if(isset($_POST['senha']) && strlen($_POST['senha']) == 0){
+		$erros[2] = "Digite uma senha";
+	}
+	if(isset($_POST['usuario']) && strlen($_POST['usuario']) > 1 && strlen($_POST['usuario']) < 5){
+		$erros[3] = "O usuário deve possuir pelo menos 6 caracteres";
+	}
+	if(isset($_POST['senha']) && strlen($_POST['senha']) > 1 && strlen($_POST['senha']) < 5){
+		$erros[4] = "A senha deve possuir pelo menos 6 caracteres";
+	}
+	return $erros;
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -65,8 +85,12 @@ function getUsuario($con){
         <legend>Dados de Login</legend>
         <label>Usuário</label>
         <input type="text" name="usuario" maxlength="25" value="<?php echo $usuario['USUARIO']; ?>"/>
+				<?php if(isset($erros[1])){echo "<p>".$erros[1]."</p>";}?>
+				<?php if(isset($erros[3])){echo "<p>".$erros[3]."</p>";}?>
         <label>Senha</label>
         <input type="password" name="senha" maxlength="25"  value="<?php echo $usuario['SENHA']; ?>"/>
+				<?php if(isset($erros[2])){echo "<p>".$erros[2]."</p>";}?>
+				<?php if(isset($erros[4])){echo "<p>".$erros[4]."</p>";}?>
         <label>Curso</label>
         <select name="curso">
           <option value="" <?php if($usuario['ID_CURSO'] == "") { echo 'selected="true"';}?>>Sem curso</option>
