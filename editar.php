@@ -97,8 +97,10 @@ function verErros(){
 <span class="icon-bar"></span></button><a class="navbar-brand" href="/index.php">FATEC Zona Leste - Sistema Gerenciador</a></div><div id="w0-collapse" class="collapse navbar-collapse"><ul id="w1" class="navbar-nav navbar-right nav">
 </ul></li></ul></div></div></nav>
     <div class="container">
-      <div class="site-index">
-        <div class="page-header">
+			<ul class="breadcrumb"><li><a href="/index.php">Home</a></li>
+				<li><a href="/usuarios.php">Usuários</a></li>
+				<li class="active">Atualizar Usuário: <?php echo $usuario['USUARIO']; ?></li>
+			</ul>
 					<h1>Atualizar Usuário: <?php echo $usuario['USUARIO']; ?></h1>
 			    <form method="post">
 						<div <?php if(isset($erros) && count($erros) > 0 && (isset($erros[1]) || isset($erros[3]) || isset($erros[5]) )){

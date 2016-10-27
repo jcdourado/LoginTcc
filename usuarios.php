@@ -17,9 +17,11 @@
 <span class="icon-bar"></span></button><a class="navbar-brand" href="/index.php">FATEC Zona Leste - Sistema Gerenciador</a></div><div id="w0-collapse" class="collapse navbar-collapse"><ul id="w1" class="navbar-nav navbar-right nav">
 </ul></li></ul></div></div></nav>
     <div class="container">
-      <div class="site-index">
-        <div class="page-header">
 
+					<ul class="breadcrumb"><li><a href="/index.php">Home</a></li>
+						<li class="active">Usuários</li>
+					</ul>
+					<h1>Usuários</h1>
 					<p><a class="btn btn-primary" href="/registrar.php"><span class="glyphicon glyphicon-plus-sign"></span> Novo Usuário</a>    </p>
 
 			    <table class="table table-striped table-bordered table-hover">
@@ -47,8 +49,6 @@
 			    </table>
 				</div>
 			</div>
-		</div>
-	</div>
 	<footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; FATEC Zona Leste 2016</p>
