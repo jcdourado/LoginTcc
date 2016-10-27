@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!usuarioEstaLogado()){
-    header("Location: login.php?err=emp"); exit;
+    header("Location: login.php"); exit;
 }
 
 function usuarioEstaLogado(){

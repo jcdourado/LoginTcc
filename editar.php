@@ -85,38 +85,72 @@ function verErros(){
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Atualizar Usuário: <?php echo $usuario['USUARIO']; ?></title>
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/site.css" rel="stylesheet">
   </head>
   <body>
-    <form method="post">
-      <fieldset>
-        <legend>Dados de Login</legend>
-        <label>Usuário</label>
-        <input type="text" name="usuario" maxlength="25" value="<?php echo $usuario['USUARIO']; ?>"/>
-				<?php if(isset($erros[1])){echo "<p>".$erros[1]."</p>";}?>
-				<?php if(isset($erros[3])){echo "<p>".$erros[3]."</p>";}?>
-				<?php if(isset($erros[5])){echo "<p>".$erros[5]."</p>";}?>
-        <label>Senha</label>
-        <input type="password" name="senha" maxlength="25"  value="<?php echo $usuario['SENHA']; ?>"/>
-				<?php if(isset($erros[2])){echo "<p>".$erros[2]."</p>";}?>
-				<?php if(isset($erros[4])){echo "<p>".$erros[4]."</p>";}?>
-        <label>Curso</label>
-        <select name="curso">
-          <option value="" <?php if($usuario['ID_CURSO'] == "") { echo 'selected="true"';}?>>Sem curso</option>
-          <?php foreach($con->query('SELECT ID_CURSO, NOME_CURSO FROM CURSO') as $row){
-            echo "<option value='".$row['ID_CURSO']."'";
-            if($usuario['ID_CURSO'] == $row['ID_CURSO']){
-              echo "selected='true'>".$row['NOME_CURSO']."</option>";
-            }else {
-              echo ">".$row['NOME_CURSO']."</option>";
-            }
-          }
+		<div class="wrap">
+    <nav id="w0" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="container"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse"><span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="/index.php">FATEC Zona Leste - Sistema Gerenciador</a></div><div id="w0-collapse" class="collapse navbar-collapse"><ul id="w1" class="navbar-nav navbar-right nav">
+</ul></li></ul></div></div></nav>
+    <div class="container">
+      <div class="site-index">
+        <div class="page-header">
+					<h1>Atualizar Usuário: <?php echo $usuario['USUARIO']; ?></h1>
+			    <form method="post">
+						<div <?php if(isset($erros) && count($erros) > 0 && (isset($erros[1]) || isset($erros[3]) || isset($erros[5]) )){
+							echo "class='form-group has-error'";
+						} else{
+								echo 'class="form-group"';
+						}?>
 
-          ?>
-        </select>
-        <input type="submit" value="Atualizar" />
-        <a href="usuarios.php">Cancelar</a>
-      </fieldset>
-    </form>
+						>
+							<label class="control-label">Usuário</label>
+			        <input class="form-control" type="text" name="usuario" maxlength="25" value="<?php echo $usuario['USUARIO']; ?>"/>
+							<?php if(isset($erros[1])){echo "<p class='control-label'>".$erros[1]."</p>";}?>
+							<?php if(isset($erros[3])){echo "<p class='control-label'>".$erros[3]."</p>";}?>
+							<?php if(isset($erros[5])){echo "<p class='control-label'>".$erros[5]."</p>";}?>
+						</div>
+						<div <?php if(isset($erros) && count($erros) > 0 && (isset($erros[2]) || isset($erros[4]) )){
+							echo "class='form-group has-error'";
+						} else{
+								echo 'class="form-group"';
+						}?>
+
+						>
+						 	<label class="control-label">Senha</label>
+			        <input type="password" class="form-control" name="senha" maxlength="25"  value="<?php echo $usuario['SENHA']; ?>"/>
+							<?php if(isset($erros[2])){echo "<p class='control-label'>".$erros[2]."</p>";}?>
+							<?php if(isset($erros[4])){echo "<p class='control-label'>".$erros[4]."</p>";}?>
+						</div>
+						<div class="form-group">
+			        <label class="control-label">Curso</label>
+			        <select class="form-control" name="curso">
+			          <option value="" <?php if($usuario['ID_CURSO'] == "") { echo 'selected="true"';}?>>Sem curso</option>
+			          <?php foreach($con->query('SELECT ID_CURSO, NOME_CURSO FROM CURSO') as $row){
+			            echo "<option value='".$row['ID_CURSO']."'";
+			            if($usuario['ID_CURSO'] == $row['ID_CURSO']){
+			              echo "selected='true'>".$row['NOME_CURSO']."</option>";
+			            }else {
+			              echo ">".$row['NOME_CURSO']."</option>";
+			            }
+			          }
+
+			          ?>
+			        </select>
+						</div>
+							<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Atualizar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="footer">
+    <div class="container">
+        <p class="pull-left">&copy; FATEC Zona Leste 2016</p>
+    </div>
+	</footer>
   </body>
 </html>
